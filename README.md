@@ -1,1 +1,1 @@
-# Decentralized-Oracle-For-Sports-Betting
+# Decentralized Oracle For Sports Betting
