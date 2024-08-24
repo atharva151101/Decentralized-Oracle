@@ -14,7 +14,7 @@ itself placing some bets in the sports betting smart contract.
 
 This project aims at trying to solve this problem by implementing a decentralized Oracle
 for the sports betting contract. The decentralized Oracle is implemented in such a way
-that the outcome of a sports match is not decided by a single controlling entity, but is actually voted upon by several voters in a decentralized way. Additionally, this decentralization
+that the outcome of a sports match is not decided by a single controlling entity, but is voted upon by several voters in a decentralized way. Additionally, this decentralization
 is carried out by using Proof-of-Work.
 
 ## Workflow
@@ -49,7 +49,3 @@ The above smart contract has already been deployed on Goerli TestNet and can be 
 
 
 
-
-
-
-This Project was done as part of CS6858 course at IIT Madras by Prof. John Augustine.
