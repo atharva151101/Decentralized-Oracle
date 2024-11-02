@@ -1,51 +1,44 @@
-# Decentralized Oracle For Sports Betting
-The above is an implementation of a Smart Contract for a decentralized Oracle to be used for Sports Betting. 
-The smart contract is written in Solidity hence it can be deployed on an [Ethereum Virtual Machine](https://en.wikipedia.org/wiki/Ethereum#Virtual_machine) or any other compatible Virtual Machine.
+# Decentralized Oracle for Reliable Event Outcome Verification
+
+This project implements a decentralized oracle system for trustless verification of real-world event outcomes, with a specific application in sports match outcomes. The smart contracts are written in Solidity and are deployable on Ethereum Virtual Machine (EVM)-compatible platforms.
 
 ## Introduction
-Betting on sports and real-life events is one of the most widely known aspects of the gambling
-industry. The current implementation of sports betting using blockchains usually follows the architecture where data is fed into the smart contract by an Oracle which in turn is a smart contract that receives data from some trusted entity like a famous sports website. The main problem with this is that
-even if the betting process and the distribution of the winnings on a sports match happens
-in a decentralized way through the sports betting smart contract, the Oracle itself is not decentralized. Thus the sports website or the entity that controls the Oracle can be
-malicious and it may feed incorrect or false data about the outcome of a sports
-match into the Oracle. This might be done if the controlling entity itself has a possibility of huge financial gains, because of the controlling entity
-itself placing some bets in the sports betting smart contract.
 
+In blockchain systems, Oracles provide a means to securely verify and transmit off-chain event data without reliance on a single trusted entity. Traditional approaches often depend on centralized data sources as Oracle, which can lead to conflicts of interest and potentially manipulated data. This project aims to address these challenges by creating an oracle that aggregates votes from independent participants who verify event outcomes. The example of sports outcomes is used to demonstrate how this model can overcome data reliability concerns through a decentralized approach. Key features include Proof-of-Work (PoW) voting and stake-based rewards for accuracy.
 
-This project aims at trying to solve this problem by implementing a decentralized Oracle
-for the sports betting contract. The decentralized Oracle is implemented in such a way
-that the outcome of a sports match is not decided by a single controlling entity, but is voted upon by several voters in a decentralized way. Additionally, this decentralization
-is carried out by using Proof-of-Work.
+## Workflow Overview
 
-## Workflow
+The Oracle and Outcome Settlement contracts work together to provide a fully decentralized platform for outcome verification.
 
-The Oracle Smart Contract has a unique Sports Betting Contract associated with it and it is deployed by the Oracle Contract itself when the Oracle Smart Contract is first created.
-The Oracle and Sports Betting Smart Contract together provide a fully decentralized platform for Sports betting.
+### Outcome Settlement Contract
 
-### Sports Betting Smart Contract
-The Sports Betting Contract is deployed by the Oracle contract itself. Any addresses can send their ethers to the Sports Betting Contract and then
-place bets on the outcomes of various sports matches available for betting. The data
-of which sports matches to open for betting and the result of the outcome of the matches is
-controlled by the Oracle Smart Contract. After a match is over and the results of the match are published by the Oracle, the Sports Betting Smart Contract distributes the winnings of the betting pool for that match to winners, additionally, a small percentage of winnings are also sent back to Oracle. These winnings
-are then distributed by the Oracle among the voters of the match who correctly voted for
-the outcome of that match, this is done to incentivize the voters of the match to vote correctly essentially establishing the validity of the Oracle (more details on this below).
+This contract allows participants to submit bets on event outcomes, such as sports matches. Participants can place bets by sending tokens to the contract. The contract controls which events are open for participation and leverages the Oracle for final outcome verification. Once the Oracle validates an event's outcome, the contract allocates winnings to correct participants and a small portion to voters in the Oracle who contributed to the correct outcome verification.
 
-### Oracle Smart Contract
-When the Oracle Contract is deployed, it creates and deploys a Sports Betting Contract that is forever associated with this Oracle. Only the person who deploys the Oracle has the power to add information for new Sports matches into the Oracle, note that this is the only power this person who deployed the Oracle has. The actual voting and determination of what the outcome of the sports match was after the betting is over happens in a decentralized way. Once the match is over the Oracle announces a challenge string, its difficulty, and a voting fee for that match. The Oracle also starts a voting period immediately between which anyone can submit their votes on what the true outcome of the match was by showing Proof-Of-Work, that is submit a nonce for the challenge string, along with paying a prediction fee by sending ethers, to submit their vote. If the challenge string, nonce, and the voter's address hashes correctly to the required difficulty their vote for the outcome of the match is accepted. The Proof-Of-Work here ensures that a single malicious entity cannot submit a huge number of votes using different addresses, as the time for voting is limited and hence they can only do a limited amount of computation in the stipulated time. Note that the same nonce can't be applicable for two addresses too, as the nonce is dependent on the voter's address itself. After the voting period ends the Oracle declares the outcome of the match, based on the votes received, to the Sports Betting Contract. The small percentage of winnings received by Oracle from the Sports Betting Contract is then distributed by Oracle to the voters who had voted for the match correctly in addition to their earlier paid prediction fee, while the malicious voters who voted incorrectly are penalized and do not receive their prediction fee back.
+### Decentralized Oracle Contract
 
+The Oracle operates autonomously, with the following workflow:
 
-### Bootstrapping of the Oracle
-The Oracle uses Proof-of-Work to ensure that a malicious entity can't submit multiple votes using different addresses. Moreover, the Oracle incentivizes the voters to vote correctly as the real-life sports event as the voters get a small percentage of winnings from the betting pool. This workflow kind of establishes an ecosystem that would need to bootstrap itself: To incentivize voters to vote correctly as the real-life sports event, the voters should be getting high rewards for predicting the correct outcome as the real-life event which will happen if the betting pool is large resulting in high stakes/rewards for the voters. And for the betting pool to get large, the betters have to trust the system and the Oracle so that more and more betters get attracted which will happen if many voters vote correctly and decide the same outcome as the real-life outcome. This bootstrapping concept is not unheard of in proof-of-worf blockchains, many proof-of-work blockchains like Bitcoin and Ethereum relied on a similar bootstrapping to establish themselves.
+1. **Event Registration**: The contract owner registers events that can be tracked.
+2. **Voting Period**: Once an event concludes, the Oracle opens a voting period. Anyone can submit votes indicating the outcome, by paying a small voting fee alongside a Proof-of-Work calculation (providing a nonce and a challenge string). PoW serves to prevent malicious entities from manipulating results by limiting the number of votes any one participant can cast within the voting timeframe.
+3. **Vote Verification**: Submitted votes must satisfy the PoW difficulty and are only accepted if the nonce and address hash match the required challenge.
+4. **Outcome Finalization**: At the end of the voting period, the Oracle aggregates votes and determines the consensus outcome, which is then relayed to the Outcome Settlement contract.
 
+Participants who voted accurately receive a portion of the betting pool as a reward along with the initial voting fee, while incorrect votes are penalized by their voting fee not being returned, incentivizing participants to vote truthfully.
 
-## Deploying the Decentralized Oracle Smart Contract
-To deploy, we just need to deploy the Oracle Smart Contract on an Ethereum Virtual Machine. The Sports Betting Smart Contract would be created and deployed by the Oracle Contract itself.
+### Proof-of-Work Mechanism
 
+To maintain integrity, PoW ensures that voters cannot spam the Oracle. Each vote requires computational effort, reducing the likelihood of manipulation. The challenge string and difficulty parameters are adjusted per event to balance security and accessibility. This system also prevents reuse of nonces by incorporating the voter's address in the PoW calculation.
 
-## Already Deployed Oracle on Goerli TestNet
-The above smart contract has already been deployed on Goerli TestNet and can be found at the following addresses
-- Address of Oracle Contract: 0x6Ef8759D027Bf45C7F02E786eC4EFFad4fb4429c
-- Address of Sports Betting Contract: 0xc176Ca8F7303179c81a1B1fc38da6A4AAd0b283F
+## System Incentives and Bootstrapping
 
+To build trust and encourage participation, the oracle rewards voters who correctly verify real-world outcomes by providing them a small portion of the betting pool for that mathch outcome. This self-reinforcing incentive system is crucial for bootstrapping user adoption. As the betting pool grows, reward size increases, attracting more voters and creating a positive feedback loop that enhances system reliability over time which inturn increases the trust in the system which incentivises betting pool to grow. Simila other PoW systems, this feedback loop is central to establishing a decentralized network. This bootstrapping concept is not unheard of in proof-of-worf blockchains, many proof-of-work blockchains like Bitcoin and Ethereum relied on a similar bootstrapping to establish themselves.
 
+## Deployment Instructions
 
+Deploy the Oracle contract on any Ethereum-compatible network. The Outcome Settlement contract is automatically generated and deployed by the Oracle upon initialization.
+
+## Deployed Contracts on Goerli TestNet
+
+The contracts are deployed on Goerli TestNet:
+- Oracle Contract: `0x6Ef8759D027Bf45C7F02E786eC4EFFad4fb4429c`
+- Outcome Settlement Contract: `0xc176Ca8F7303179c81a1B1fc38da6A4AAd0b283F`
