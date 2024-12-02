@@ -4,7 +4,7 @@ pragma solidity ^0.8.7;
 
 import "./CommonTypes.sol";
 import "./OracleInterface.sol";
-import "./SportsBettingInterface.sol";
+import "./OutcomeSettlementInterface.sol";
 
 
 /// @title A smart contract for sports betting

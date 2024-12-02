@@ -4,7 +4,7 @@ pragma solidity ^0.8.7;
 
 import "./CommonTypes.sol";
 import "./OracleInterface.sol";
-import "./SportsBetting.sol";
+import "./OutcomeSettlement.sol";
 
 /// @title This contract acts as the Oracle for the sports betting contract.
 contract Oracle is OracleInterface {
