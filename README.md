@@ -27,7 +27,7 @@ Participants who voted accurately receive a portion of the betting pool as a rew
 
 ### Proof-of-Work Mechanism
 
-To maintain integrity, PoW ensures that voters cannot spam the Oracle. Each vote requires computational effort, reducing the likelihood of manipulation. The challenge string and difficulty parameters are adjusted per event to balance security and accessibility. This system also prevents reuse of nonces by incorporating the voter's address in the PoW calculation.
+To maintain integrity, PoW ensures that voters cannot spam the Oracle. Each vote requires computational effort, reducing the likelihood of manipulation. The challenge string and difficulty parameters are adjusted per event to balance security and accessibility. This system also prevents re-use of nonces by incorporating the voter's address in the PoW calculation.
 
 ## System Incentives and Bootstrapping
 
